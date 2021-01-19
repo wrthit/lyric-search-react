@@ -20,7 +20,7 @@ const Tracks: React.FC = () => {
     
     return (
         <React.Fragment>
-            <h1>{heading}</h1>
+            <h1 className="text-center">{heading}</h1>
             <div className="row">
                 {renderTracks(tracks)}
             </div>
