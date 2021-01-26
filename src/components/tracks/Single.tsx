@@ -28,4 +28,4 @@ const Single: React.FC<TrackProperties> = ({ single }) => {
     )
 }
 
-export default Single;
+export default Single

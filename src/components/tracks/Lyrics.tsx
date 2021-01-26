@@ -2,7 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Track } from '../../types/Track'
-import Moment from "react-moment";
+import Moment from "react-moment"
 
 
 const Lyrics: React.FC = () => {

@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
-import TrackListContext from '../../context'
+import { TrackListAction, TrackListContext } from '../../context'
 import { Track } from '../../types/Track';
 import { TrackList } from '../../types/TrackList';
 import Single from './Single';
 
 const Tracks: React.FC = () => {
-    const { tracks, heading }: TrackList = useContext<TrackList>(TrackListContext);
+    const { state } = useContext<{state:TrackList, dispatch:React.Dispatch<TrackListAction>}>(TrackListContext)
 
     const renderTracks = (tracks: Track[]) => {
         if (tracks.length === 0) {
@@ -20,9 +20,9 @@ const Tracks: React.FC = () => {
     
     return (
         <React.Fragment>
-            <h1 className="text-center">{heading}</h1>
+            <h1 className="text-center">{state.heading}</h1>
             <div className="row">
-                {renderTracks(tracks)}
+                {renderTracks(state.tracks)}
             </div>
         </React.Fragment>   
     )

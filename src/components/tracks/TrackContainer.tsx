@@ -1,16 +1,13 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { TrackListProvider } from '../../context';
+import React, { useContext, useEffect } from 'react';
+import { TrackListContext } from '../../context';
 import { Track } from '../../types/Track';
-import { TrackList } from '../../types/TrackList';
+import Search from './Search';
 import Tracks from './Tracks';
 
 const TrackContainer: React.FC = () => {
-    const [trackList, setTrackList] = useState<TrackList>({
-        tracks: [],
-        heading: 'Top 10 Tracks'
-    });
-
+    const { state, dispatch } = useContext(TrackListContext)
+    
     useEffect(() => {
         axios.get(`/chart.tracks.get?chart_name=top&page=1&page_size=10&country=us&f_has_lyrics=1&apikey=${process.env.REACT_APP_MM_KEY}`)
             .then(res => {
@@ -19,18 +16,24 @@ const TrackContainer: React.FC = () => {
                 for (let key of Object.keys(track_list)){
                     nestedTracks.push(track_list[key].track)
                 }
-                setTrackList({tracks:nestedTracks, heading:'Top 10 Tracks'});
+                dispatch({
+                            type: 'TOP_10',
+                            payload: {
+                                ...state,
+                                tracks: nestedTracks,
+                                heading: 'Top 10 Tracks'
+                            }
+                        })   
             })
-            .catch(err => console.log(err));
-    }, [])
+            .catch(err => console.log(err))
+    }, [])  // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
-        <TrackListProvider value={trackList}>
-            <React.Fragment>
-                <Tracks />
-            </React.Fragment>
-        </TrackListProvider>
+        <React.Fragment>
+            <Search />
+            <Tracks />
+        </React.Fragment>
     )
 };
 
-export default TrackContainer;
+export default TrackContainer
